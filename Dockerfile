@@ -9,12 +9,11 @@ COPY packages/comou-safe-detector/package.json ./packages/comou-safe-detector/
 
 RUN npm install
 
-COPY tsconfig.json tsconfig.build.json nest-cli.json ./
-COPY src ./src
-
-RUN nest build && echo "=== BUILD SUCCESS ===" && ls -la /app/dist/
-
+# Copy all source files - any change here busts nest build cache
 COPY . .
+
+# Remove any stale tsbuildinfo cache, then compile fresh
+RUN rm -f tsconfig.build.tsbuildinfo && nest build && echo "=== BUILD OK ===" && ls dist/
 
 EXPOSE 3000
 

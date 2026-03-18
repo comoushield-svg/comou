@@ -10,6 +10,11 @@ export type {
   ClientInfo,
   CallMeta,
   RiskSignals,
+  AudioSignal,
+  AnalyzeAudioPayload,
+  AudioDeepfakeResult,
+  AudioVerdict,
+  AudioFormat,
   ComouSafeDetectorOptions,
   ComouApiError,
 } from './types';

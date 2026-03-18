@@ -9,6 +9,7 @@ import {
   Min,
   ValidateNested,
   IsIP,
+  IsEnum,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 
@@ -144,4 +145,31 @@ export class AnalyzeVoipRiskDto {
   @IsOptional()
   @IsString()
   freeTextNote?: string;
+
+  @ApiPropertyOptional({
+    description:
+      'AUDETER XLR-SLS 모델 기반 음성 딥페이크 분석 결과. ' +
+      '별도 POST /v1/audio-deepfake/analyze 호출 후 결과를 여기에 포함하면 riskScore에 반영됩니다.',
+  })
+  @IsOptional()
+  @ValidateNested()
+  @Type(() => AudioSignalDto)
+  audioSignal?: AudioSignalDto;
+}
+
+export class AudioSignalDto {
+  @ApiPropertyOptional({
+    description: '음성이 합성(딥페이크)으로 판별되었는지 여부',
+  })
+  @IsOptional()
+  @IsBoolean()
+  isSyntheticVoice?: boolean;
+
+  @ApiPropertyOptional({
+    description: '실제 음성 신뢰 점수 (0~1). 낮을수록 합성 음성일 가능성 높음',
+  })
+  @IsOptional()
+  @IsNumber()
+  @Min(0)
+  authenticityScore?: number;
 }

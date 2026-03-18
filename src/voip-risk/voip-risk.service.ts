@@ -27,6 +27,7 @@ export class VoipRiskService {
     score += this.evaluateNetworkSignals(dto, reasons);
     score += this.evaluateCallBehavior(dto, reasons);
     score += this.evaluateAbuseReports(dto, reasons);
+    score += this.evaluateAudioSignal(dto, reasons);
 
     const verdict = this.scoreToVerdict(score);
     const recommendedAction = this.verdictToAction(verdict);
@@ -179,6 +180,41 @@ export class VoipRiskService {
         code: 'LOW_ABUSE_REPORT_COUNT',
         description: `이 계정/세션에 ${reports}건의 신고 이력이 있습니다.`,
         weight: 10,
+      });
+    }
+
+    return score;
+  }
+
+  /**
+   * AUDETER XLR-SLS 모델 기반 음성 딥페이크 탐지 결과를 riskScore에 반영.
+   * POST /v1/audio-deepfake/analyze 결과를 audioSignal 필드로 전달받아 처리합니다.
+   */
+  private evaluateAudioSignal(
+    dto: AnalyzeVoipRiskDto,
+    reasons: RiskReason[],
+  ): number {
+    let score = 0;
+    const audio = dto.audioSignal;
+    if (!audio) return 0;
+
+    if (audio.isSyntheticVoice === true) {
+      score += 45;
+      reasons.push({
+        code: 'SYNTHETIC_VOICE_DETECTED',
+        description:
+          'AUDETER 기반 딥페이크 탐지 모델이 상대방 음성을 합성(TTS/Vocoder) 음성으로 판별했습니다.',
+        weight: 45,
+      });
+    } else if (
+      typeof audio.authenticityScore === 'number' &&
+      audio.authenticityScore < 0.4
+    ) {
+      score += 25;
+      reasons.push({
+        code: 'LOW_VOICE_AUTHENTICITY',
+        description: `음성 진위도 점수가 낮습니다 (${(audio.authenticityScore * 100).toFixed(1)}%). 합성 음성일 가능성이 있습니다.`,
+        weight: 25,
       });
     }
 

@@ -1,6 +1,6 @@
 {
   "name": "comou-safe-detector",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Comou VOIP voice phishing detection SDK. Detect phishing risks in VoIP sessions with a single API call.",
   "author": "Comou",
   "license": "MIT",

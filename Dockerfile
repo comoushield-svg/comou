@@ -24,6 +24,6 @@ RUN npm install --omit=dev --cache .npm-cache
 
 COPY --from=builder /app/dist ./dist
 
-EXPOSE 3000
+EXPOSE ${PORT:-3000}
 
 CMD ["node", "dist/main"]

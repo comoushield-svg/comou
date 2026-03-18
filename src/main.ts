@@ -26,8 +26,9 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('docs', app, document);
 
-  await app.listen(process.env.PORT ?? 3000);
-  console.log(`Comou API running on: http://localhost:${process.env.PORT ?? 3000}`);
-  console.log(`Swagger docs: http://localhost:${process.env.PORT ?? 3000}/docs`);
+  const port = process.env.PORT ?? 3000;
+  await app.listen(port, '0.0.0.0');
+  console.log(`Comou API running on port ${port}`);
+  console.log(`Swagger docs: http://localhost:${port}/docs`);
 }
 bootstrap();

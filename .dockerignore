@@ -1,0 +1,11 @@
+node_modules
+.npm-cache
+dist
+.git
+.env
+.env.*
+coverage
+*.log
+packages/comou-safe-detector/dist
+packages/comou-safe-detector/node_modules
+ml-service/__pycache__

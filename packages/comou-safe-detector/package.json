@@ -1,0 +1,47 @@
+{
+  "name": "comou-safe-detector",
+  "version": "0.1.0",
+  "description": "Comou VOIP voice phishing detection SDK. Detect phishing risks in VoIP sessions with a single API call.",
+  "author": "Comou",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc --project tsconfig.json && tsc --project tsconfig.esm.json && cp dist/esm/index.js dist/index.mjs",
+    "build:watch": "tsc --project tsconfig.json --watch",
+    "typecheck": "tsc --noEmit",
+    "test": "jest",
+    "prepublishOnly": "npm run build && npm test"
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "testRegex": ".*\\.spec\\.ts$",
+    "moduleFileExtensions": ["ts", "js", "json"]
+  },
+  "keywords": [
+    "voip",
+    "voice-phishing",
+    "fraud-detection",
+    "security",
+    "comou"
+  ],
+  "devDependencies": {
+    "@types/jest": "^29.5.14",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.2.5",
+    "typescript": "^5.7.3"
+  }
+}

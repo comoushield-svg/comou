@@ -6,3 +6,10 @@ dist/
 .npm-cache/
 *.log
 coverage/
+
+# Cursor IDE - 프롬프트, 플랜, 룰 파일
+.cursor/
+*.plan.md
+*.prompt.md
+PROMPT*
+prompt*

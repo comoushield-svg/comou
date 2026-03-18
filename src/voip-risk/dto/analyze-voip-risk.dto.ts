@@ -106,6 +106,23 @@ export class RiskSignalsDto {
   rapidConnectionAttempts?: number;
 }
 
+export class AudioSignalDto {
+  @ApiPropertyOptional({
+    description: '음성이 합성(딥페이크)으로 판별되었는지 여부',
+  })
+  @IsOptional()
+  @IsBoolean()
+  isSyntheticVoice?: boolean;
+
+  @ApiPropertyOptional({
+    description: '실제 음성 신뢰 점수 (0~1). 낮을수록 합성 음성일 가능성 높음',
+  })
+  @IsOptional()
+  @IsNumber()
+  @Min(0)
+  authenticityScore?: number;
+}
+
 export class AnalyzeVoipRiskDto {
   @ApiProperty({ description: '고유 세션 ID', example: 'sess_abc123' })
   @IsString()
@@ -155,21 +172,4 @@ export class AnalyzeVoipRiskDto {
   @ValidateNested()
   @Type(() => AudioSignalDto)
   audioSignal?: AudioSignalDto;
-}
-
-export class AudioSignalDto {
-  @ApiPropertyOptional({
-    description: '음성이 합성(딥페이크)으로 판별되었는지 여부',
-  })
-  @IsOptional()
-  @IsBoolean()
-  isSyntheticVoice?: boolean;
-
-  @ApiPropertyOptional({
-    description: '실제 음성 신뢰 점수 (0~1). 낮을수록 합성 음성일 가능성 높음',
-  })
-  @IsOptional()
-  @IsNumber()
-  @Min(0)
-  authenticityScore?: number;
 }

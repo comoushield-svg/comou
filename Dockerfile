@@ -9,9 +9,12 @@ COPY packages/comou-safe-detector/package.json ./packages/comou-safe-detector/
 
 RUN npm install
 
-COPY . .
+COPY tsconfig.json tsconfig.build.json nest-cli.json ./
+COPY src ./src
 
-RUN nest build && ls -la dist/
+RUN nest build && echo "=== BUILD SUCCESS ===" && ls -la /app/dist/
+
+COPY . .
 
 EXPOSE 3000
 
